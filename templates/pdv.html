@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+<h2>Frente de Caixa</h2>
+
+<form method="POST" action="{{ url_for('adicionar_item') }}">
+    <label>Produto:</label>
+    <select name="produto_id">
+        {% for p in produtos %}
+            <option value="{{ p.id }}">{{ p.sku }} - {{ p.nome }} - R$ {{ "%.2f"|format(p.preco) }} (saldo: {{ p.estoque }})</option>
+        {% endfor %}
+    </select>
+
+    <label>Quantidade:</label>
+    <input type="number" name="quantidade" min="1" value="1" required>
+
+    <br>
+    <button type="submit">Adicionar ao carrinho</button>
+</form>
+
+<h2>Carrinho</h2>
+
+{% if itens %}
+<table>
+    <tr>
+        <th>SKU</th>
+        <th>Produto</th>
+        <th>Quantidade</th>
+        <th>Preço unitário</th>
+        <th>Subtotal</th>
+        <th>Ação</th>
+    </tr>
+    {% for p, qtd in itens %}
+    <tr>
+        <td>{{ p.sku }}</td>
+        <td>{{ p.nome }}</td>
+        <td>{{ qtd }}</td>
+        <td>R$ {{ "%.2f"|format(p.preco) }}</td>
+        <td>R$ {{ "%.2f"|format(p.preco * qtd) }}</td>
+        <td>
+            <form method="POST" action="{{ url_for('remover_item', id=p.id) }}">
+                <button class="excluir">Remover</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+    <tr class="total">
+        <td colspan="4">Total do pedido</td>
+        <td colspan="2">R$ {{ "%.2f"|format(total) }}</td>
+    </tr>
+</table>
+
+<h2>Fechar pedido</h2>
+
+<form method="POST" action="{{ url_for('finalizar_venda') }}">
+    <label>Nome do cliente:</label>
+    <input type="text" name="cliente_nome" maxlength="120" required>
+
+    <label>CPF ou CNPJ:</label>
+    <input type="text" name="cliente_documento" maxlength="18" required>
+
+    <label>Forma de pagamento:</label>
+    <select name="forma_pagamento">
+        {% for codigo, nome in pagamentos.items() %}
+            <option value="{{ codigo }}">{{ nome }}</option>
+        {% endfor %}
+    </select>
+
+    <br>
+    <button type="submit">Finalizar venda</button>
+</form>
+{% else %}
+<p>O carrinho está vazio. Adicione produtos acima para montar o pedido.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,105 @@
+/* login.css - tela de entrada: centralizada, sem menu e com fundo decorado.
+   Carregado depois do base.css, so na pagina de login. */
+
+body.login {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image:
+        radial-gradient(circle at 12% 18%, var(--coral-claro) 0, transparent 38%),
+        radial-gradient(circle at 88% 82%, var(--coral-claro) 0, transparent 42%);
+}
+
+/* caixas inclinadas ao fundo, lembrando prateleiras de estoque */
+body.login::before,
+body.login::after {
+    content: "";
+    position: fixed;
+    border: 2px solid var(--coral);
+    border-radius: 16px;
+    opacity: 0.4;
+}
+
+body.login::before {
+    width: 180px;
+    height: 180px;
+    top: 8%;
+    right: 10%;
+    transform: rotate(12deg);
+}
+
+body.login::after {
+    width: 120px;
+    height: 120px;
+    bottom: 10%;
+    left: 8%;
+    transform: rotate(-9deg);
+}
+
+body.login header {
+    display: none;
+}
+
+body.login main {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    overflow: visible;
+}
+
+/* Cartao de entrada */
+.login-card {
+    padding: 32px 28px 28px;
+    background: var(--superficie);
+    border: 1px solid var(--borda);
+    border-top: 6px solid var(--principal);
+    border-radius: 14px;
+    box-shadow: 0 14px 34px var(--sombra);
+}
+
+.login-marca {
+    margin-bottom: 18px;
+    text-align: center;
+}
+
+.login-selo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    background: var(--principal);
+    color: var(--sobre-principal);
+    border-radius: 16px;
+    box-shadow: 4px 4px 0 var(--coral);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 22px;
+    transform: rotate(-6deg);
+}
+
+.login-marca h1 {
+    margin: 18px 0 4px;
+    font-size: 24px;
+}
+
+.login-marca p {
+    margin: 0;
+    color: var(--texto-suave);
+    font-size: 14px;
+}
+
+.login-card input {
+    max-width: none;
+    padding: 10px;
+}
+
+.login-card button {
+    width: 100%;
+    margin-top: 22px;
+    padding: 11px;
+    font-size: 16px;
+}

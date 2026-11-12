@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>TechStock Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito&family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cores.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    {% block estilos %}{% endblock %}
+</head>
+<body class="{% block classe_body %}{% endblock %}">
+    <header class="no-print">
+        <div class="topo">
+            <h2>TechStock Manager</h2>
+            {% if session.usuario_id %}
+            <form method="POST" action="{{ url_for('logout') }}">
+                <span>{{ session.nome }} ({{ session.perfil|capitalize }})</span>
+                <button>Sair</button>
+            </form>
+            {% endif %}
+        </div>
+        {% if session.usuario_id %}
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('pdv') }}">Frente de Caixa</a>
+        <a href="{{ url_for('vendas') }}">Vendas</a>
+        {% if session.perfil == 'GERENTE' %}
+        <a href="{{ url_for('novo_produto') }}">Novo Produto</a>
+        <a href="{{ url_for('movimentacao') }}">Movimentação</a>
+        <a href="{{ url_for('cadastros') }}">Categorias e Fornecedores</a>
+        <a href="{{ url_for('novo_fornecedor') }}">Novo Fornecedor</a>
+        {% endif %}
+        {% endif %}
+    </header>
+
+    <main>
+        {% with mensagens = get_flashed_messages(with_categories=true) %}
+            {% for tipo, texto in mensagens %}
+                <div class="msg {{ tipo }} no-print">{{ texto }}</div>
+            {% endfor %}
+        {% endwith %}
+
+        {% block conteudo %}{% endblock %}
+    </main>
+</body>
+</html>

@@ -1,0 +1,36 @@
+/* cores.css - unica fonte de cores do sistema.
+   Para mudar a identidade visual, altere apenas os valores deste arquivo. */
+
+:root {
+    /* Fundos e texto */
+    --fundo: #fbf6ef;
+    --superficie: #fffdf9;
+    --borda: #eadfd3;
+    --texto: #4a3f3a;
+    --texto-suave: #6f625b;
+    --sobre-principal: #ffffff;
+
+    /* Identidade (coral) */
+    --coral: #e8836a;            /* detalhes e decoracao, nunca sob texto */
+    --coral-claro: #fbe3da;      /* cabecalho de tabela, destaques suaves */
+    --principal: #bf4f35;        /* cabecalho, botoes e badges (texto branco por cima) */
+    --principal-hover: #a8432b;  /* hover, links e foco */
+
+    /* Neutro (acoes secundarias) */
+    --neutro: #7d6558;
+    --neutro-hover: #6b5a50;
+
+    /* Estados */
+    --alerta-fundo: #fde8e2;
+    --sucesso-fundo: #e3f1df;
+    --sucesso-texto: #3d6b35;
+    --erro-fundo: #fbdcd4;
+    --erro-texto: #9c3d2a;
+
+    /* Badges de natureza do produto */
+    --badge-fisico: #7a6a5f;
+    --badge-digital: #3d6d99;
+
+    /* Sombras */
+    --sombra: rgba(125, 80, 55, 0.16);
+}

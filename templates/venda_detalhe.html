@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+<div class="recibo">
+    <h2>TechStore Informática &amp; Serviços Corporativos</h2>
+    <h3>Recibo de faturamento</h3>
+
+    <p>
+        <strong>Pedido:</strong> {{ venda.numero_pedido }}
+        {% if venda.status_venda == 'CANCELADA' %}<span class="badge cancelada">Cancelada</span>{% endif %}
+    </p>
+    <p><strong>Data/Hora:</strong> {{ venda.data_hora.strftime('%d/%m/%Y %H:%M') }}</p>
+    <p><strong>Operador:</strong> {{ venda.operador }}</p>
+    <p><strong>Cliente:</strong> {{ venda.cliente_nome }}</p>
+    <p><strong>CPF/CNPJ:</strong> {{ venda.cliente_documento|documento }}</p>
+    <p><strong>Pagamento:</strong> {{ pagamentos[venda.forma_pagamento] }}</p>
+
+    <table>
+        <tr>
+            <th>SKU</th>
+            <th>Descrição</th>
+            <th>Natureza</th>
+            <th>Quantidade</th>
+            <th>Valor unitário</th>
+            <th>Subtotal</th>
+        </tr>
+        {% for i in itens %}
+        <tr>
+            <td>{{ i.sku }}</td>
+            <td>{{ i.nome }}</td>
+            <td>
+                {% if i.tipo == 'Software' %}
+                    <span class="badge digital">Licença digital</span>
+                {% else %}
+                    <span class="badge fisico">Componente físico</span>
+                {% endif %}
+            </td>
+            <td>{{ i.quantidade_vendida }}</td>
+            <td>R$ {{ "%.2f"|format(i.preco_unitario_praticado) }}</td>
+            <td>R$ {{ "%.2f"|format(i.subtotal_item) }}</td>
+        </tr>
+        {% endfor %}
+        <tr class="total">
+            <td colspan="5">Total geral</td>
+            <td>R$ {{ "%.2f"|format(venda.valor_total) }}</td>
+        </tr>
+    </table>
+</div>
+
+<div class="acoes no-print">
+    <button type="button" onclick="window.print()">Imprimir recibo</button>
+    <a href="{{ url_for('pdv') }}">Nova venda</a>
+    <a href="{{ url_for('vendas') }}">Todas as vendas</a>
+
+    {% if session.perfil == 'GERENTE' and venda.status_venda == 'CONCLUIDA' %}
+    <form method="POST" action="{{ url_for('cancelar_venda', id=venda.id) }}"
+          onsubmit="return confirm('Cancelar esta venda e devolver os itens ao estoque?')">
+        <button class="excluir">Cancelar venda</button>
+    </form>
+    {% endif %}
+</div>
+{% endblock %}

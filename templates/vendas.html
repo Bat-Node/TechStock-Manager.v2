@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+<h2>Vendas</h2>
+
+{% if session.perfil == 'GERENTE' %}
+<p class="resumo">Faturamento das vendas concluídas: <strong>R$ {{ "%.2f"|format(faturamento) }}</strong></p>
+{% endif %}
+
+{% if vendas %}
+<table>
+    <tr>
+        <th>Pedido</th>
+        <th>Data/Hora</th>
+        <th>Cliente</th>
+        <th>Operador</th>
+        <th>Total</th>
+        <th>Situação</th>
+    </tr>
+    {% for v in vendas %}
+    <tr>
+        <td><a href="{{ url_for('detalhe_venda', id=v.id) }}">{{ v.numero_pedido }}</a></td>
+        <td>{{ v.data_hora.strftime('%d/%m/%Y %H:%M') }}</td>
+        <td>{{ v.cliente_nome }}</td>
+        <td>{{ v.operador }}</td>
+        <td>R$ {{ "%.2f"|format(v.valor_total) }}</td>
+        <td>
+            {% if v.status_venda == 'CANCELADA' %}
+                <span class="badge cancelada">Cancelada</span>
+            {% else %}
+                Concluída
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>Nenhuma venda registrada ainda. Use a Frente de Caixa para abrir um pedido.</p>
+{% endif %}
+{% endblock %}
